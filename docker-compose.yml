@@ -1,0 +1,40 @@
+version: '2'
+services:
+  web:
+    restart: always
+    build: .
+    image: "web"
+    links:
+      - db_w
+      - db_r
+      - redis
+    tty: true
+    depends_on:
+      - db_w
+      - db_r
+      - redis
+    ports:
+      - '8080:80'
+  redis:
+    image: redis:3.0
+  db_w:
+    build: "./db_w"
+    image: "mysql:master"
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+    expose:
+      - "3306"
+  db_r:
+    build: "./db_r"
+    image: "mysql:slave"
+    depends_on:
+      - db_w 
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_MASTER_SERVER=master
+      - MYSQL_MASTER_ROOT_PASS=root
+      - MYSQL_MASTER_WAIT_TIME=5
+    links:
+      - db_w
+    expose:
+      - "3306"
