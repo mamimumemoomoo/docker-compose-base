@@ -1,7 +1,7 @@
 #!/bin/sh
 
-echo "Waiting for master ${MYSQL_MASTER_WAIT_TIME}sec..."
-sleep ${MYSQL_MASTER_WAIT_TIME}s
+# master待ち
+sleep 7s
 
 export MYSQL_PWD=${MYSQL_MASTER_ROOT_PASS}
 log_file=`mysql -u root -h db_w -e "SHOW MASTER STATUS\G" | grep File: | awk '{print $2}'`

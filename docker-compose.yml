@@ -1,9 +1,9 @@
 version: '2'
 services:
-  web:
+  app:
     restart: always
     build: .
-    image: "web"
+    image: "app"
     links:
       - db_w
       - db_r
@@ -31,9 +31,7 @@ services:
       - db_w 
     environment:
       - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_MASTER_SERVER=master
       - MYSQL_MASTER_ROOT_PASS=root
-      - MYSQL_MASTER_WAIT_TIME=5
     links:
       - db_w
     expose:
